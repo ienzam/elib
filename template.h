@@ -28,7 +28,7 @@ using namespace std;
 #define ROFba(i,b,a) for(__typeof(b) i=(b);i>=(a);i--)
 #define ROF(i,n) ROFba(i,(n)-1,0)
 #define ROF1(i,n) ROFba(i,n,1)
-#define FORstl(i,s) for(__typeof(s.end()) i=s.begin(); i != s.end(); i++)
+#define FORstl(i,s) for(__typeof((s).end()) i=(s).begin(); i != (s).end(); i++)
 #define pb push_back
 #define sz(a) ((int)a.size())
 #define ms(a,n) memset(a, n, sizeof(a))
@@ -53,8 +53,8 @@ using namespace std;
 #endif
 #define endl '\n'
 
-#define DIM(a,b) typeof(b) a=(b)
-#define RDIM(a,b) typeof(b) &a=(b)
+#define DIM(a,b) __typeof(b) a=(b)
+#define RDIM(a,b) __typeof(b) &a=(b)
 #define in(a,b,c) ((a) <= (b) && (b) <= (c))
 #define sqr(a) ((a)*(a))
 #define amax(a,b) ( (a) = max( (a) , (b) ) )

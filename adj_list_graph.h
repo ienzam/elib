@@ -14,8 +14,14 @@ using namespace std;
 
 struct AdjListGraph : public Graph {
 	vector< vector<int> > adjList;
-	AdjListGraph(int n) {
+	AdjListGraph(int n = 0) {
 		adjList = vector< vector<int> >(n);
+	}
+
+	void clear() { adjList.clear(); }
+
+	void addNode() {
+		adjList.push_back(vector<int>());
 	}
 
 	void addEdge(int id, int ch, bool biDirEdge = false) {
