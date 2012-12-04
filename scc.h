@@ -46,7 +46,7 @@ public:
 	SCCKosaraju() : inGraph(0), sccGraph(0) { }
 	SCCKosaraju (AdjListGraph& graph)
 	 : inGraph(&graph), sccGraph(0) {
-		findSCCs();
+//		findSCCs();
 	}
 
 	void findSCCs() {
@@ -98,17 +98,17 @@ public:
 	/**
 	 * Returns the input graph
 	 */
-	Graph& G() { return *inGraph; }
+	AdjListGraph& G() { return *inGraph; }
 
 	/**
-	 * Returns the const reference of the scc graph
+	 * Returns the reference of the scc graph
 	 */
-	const Graph& getSCCGraph() { return *sccGraph; }
+	AdjListGraph& getSCCGraph() { return *sccGraph; }
 
 	/**
-	 * Returns the const reference of the scc graph, same as getSCCGraph()
+	 * Returns the reference of the scc graph, same as getSCCGraph()
 	 */
-	const Graph& SCCG() { return *sccGraph; }
+	AdjListGraph& SCCG() { return *sccGraph; }
 
 	/**
 	 * Returns the list of vertices belongs to a component

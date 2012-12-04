@@ -11,22 +11,24 @@
 
 #include "template.h"
 
+template<class Type>
 struct Polygon {
-	vector<Point> corners;
+	vector< TPoint<Type> > corners;
 	Polygon() {}
-	Polygon(const vector<Point>& pts) : corners(pts) {}
-	void addCorner(const Point &pt) { corners.push_back(pt); }
-	double getArea() {
+	Polygon(const vector<TPoint<Type> >& pts) : corners(pts) {}
+	void addCorner(const TPoint<Type> &pt) { corners.push_back(pt); }
+	static double getArea(const vector< TPoint<Type> >& corners) {
 		double res = 0;
 		FOR(i, sz(corners))
 		{
-			Point
+			TPoint<Type>
 				p1 = i ? corners[i-1] : corners.back(),
 				p2 = corners[i];
 			res += (p1.x - p2.x) * (p1.y + p2.y);
 		}
 		return fabs(res) / 2;
 	}
+	double getArea() { return getArea(corners); }
 };
 
 #endif /* POLYGON_H_ */

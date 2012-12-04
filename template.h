@@ -56,6 +56,7 @@ using namespace std;
 #define DIM(a,b) __typeof(b) a=(b)
 #define RDIM(a,b) __typeof(b) &a=(b)
 #define in(a,b,c) ((a) <= (b) && (b) <= (c))
+#define inneq(a,b,c) ((a) < (b) && (b) < (c))
 #define sqr(a) ((a)*(a))
 #define amax(a,b) ( (a) = max( (a) , (b) ) )
 #define amin(a,b) ( (a) = min( (a) , (b) ) )
@@ -64,6 +65,9 @@ using namespace std;
 #define abs(x) (((x)<0)?-(x):(x))
 #define ZERO(x) (abs(x) < EPS)
 #define EQ(a,b) (ZERO((a)-(b)))
+
+int ssz(char *s) { return strlen(s); }
+int ssz(const string& s) { return sz(s); }
 
 //#define __eXYZ__
 #ifdef __eXYZ__
@@ -82,7 +86,9 @@ using namespace std;
 #endif
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
+typedef vector<vi> vvi;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef pair<string,int> psi;
@@ -126,5 +132,20 @@ struct debugger
 
 #define pr first
 #define pc second
+
+#define qpopret(s) ({DIM(r, s.front()); s.pop(); r;})
+
+string i2b(ll a, int len = -1) {
+	string str = "";
+	do {
+		str += (a&1)+'0';
+		a >>= 1;
+		len--;
+	}while(len > 0 || a);
+	reverse(all(str));
+	return str;
+}
+
+#define sexists(s,v) ((s).find(v) != (s).end())
 
 #endif

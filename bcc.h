@@ -6,6 +6,16 @@
 // Accepted	   : YES, uva - 10199 - Tourist Guide
 //============================================================================
 
+/** Usage:
+ * First set the graph in constructor or by calling setGraph().
+ * Then call findBCCs() [optional, but if you change the graph
+ * after setGraph , then you need to call it explicitly]
+ * Then use the methods -
+ * const vi& getArticulationPoints()
+ * const vector<vi>& getBiConnectedComponents()
+ * const vector<pii>& getBridges()
+ */
+
 #ifndef BCC_H_
 #define BCC_H_
 
@@ -22,8 +32,10 @@ private:
 
 	vector<pii> bridges;
 	vi artiPoints;
-	vi compId;
+//	vi compId;
 	vector<vi> compVertices;
+
+	bool foundBCCs;
 
 	void dfs(int now, int parent) {
 		low[now] = dfsnum[now] = ++visCount;
@@ -40,7 +52,7 @@ private:
 				dfs(ch, now);
 				amin(low[now], low[ch]);
 				if(dfsnum[now] <= low[ch]) isArti = true;
-				if(low[ch] == dfsnum[ch]) bridges.push_back(mp(now, ch));
+				if(dfsnum[ch] == low[ch]) bridges.push_back(mp(now, ch));
 			}
 		}
 		if(parent == -1) {
@@ -52,12 +64,12 @@ private:
 
 		if(low[now] == dfsnum[now]) {
 			compVertices.push_back(vi());
-			while(true) {
-				int sTop = st.back(); st.pop_back();
-				compId[sTop] = sz(compVertices) - 1;
+			int sTop;
+			do {
+				sTop = st.back(); st.pop_back();
+//				compId[sTop] = sz(compVertices) - 1;
 				compVertices.back().push_back(sTop);
-				if(sTop == now) break;
-			}
+			} while(sTop != now);
 		}
 	}
 
@@ -69,9 +81,10 @@ public:
 		}
 
 		visCount = 0;
+		fill(all(dfsnum), 0);
 		dfsnum.resize(inGraph->numVertex(), 0);
 		low.resize(inGraph->numVertex());
-		compId.resize(inGraph->numVertex());
+//		compId.resize(inGraph->numVertex());
 		compVertices.clear();
 		st.clear();
 		artiPoints.clear();
@@ -80,19 +93,33 @@ public:
 		FOR(i, inGraph->numVertex()) {
 			if(!dfsnum[i]) dfs(i, -1);
 		}
+
+		foundBCCs = true;
 	}
-	BCC() {}
-	BCC(AdjListGraph& graph) : inGraph(&graph) {
-		findBCCs();
+
+	BCC() : foundBCCs(false) {}
+	BCC(AdjListGraph& graph) : inGraph(&graph), foundBCCs(false) {
+		//findBCCs();
 	}
 
 	/**
 	 * Set the input graph to graph
 	 */
-	void setGraph(AdjListGraph& graph) { inGraph = &graph; }
+	void setGraph(AdjListGraph& graph) { inGraph = &graph; foundBCCs = false; }
 
-	const vi& getArticulatioPoints() {
+	const vi& getArticulationPoints() {
+		if(!foundBCCs) findBCCs();
 		return artiPoints;
+	}
+
+	const vector<vi>& getBiConnectedComponents() {
+		if(!foundBCCs) findBCCs();
+		return compVertices;
+	}
+
+	const vector<pii>& getBridges() {
+		if(!foundBCCs) findBCCs();
+		return bridges;
 	}
 };
 

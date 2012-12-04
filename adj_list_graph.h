@@ -18,17 +18,22 @@ struct AdjListGraph : public Graph {
 		adjList = vector< vector<int> >(n);
 	}
 
+	AdjListGraph(const vector< vector<int> >& v) : adjList(v) {}
+
 	void clear() { adjList.clear(); }
 
 	void addNode() {
 		adjList.push_back(vector<int>());
 	}
 
+	/**
+	 * id = start, ch = end, biDirEdge = if bidirectional, default false
+	 */
 	void addEdge(int id, int ch, bool biDirEdge = false) {
 		adjList[id].push_back(ch);
 		if(biDirEdge) adjList[ch].push_back(id);
 	}
-	vi getAdjacents(int id) {
+	const vi& getAdjacents(int id) {
 		return adjList[id];
 	}
 	int getAdjacentAt(int id, int idx) {

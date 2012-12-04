@@ -1,23 +1,23 @@
 //============================================================================
-// Name        : suffix_array.h
+// Name        : suffix_array_cstr.h
 // Author      : enzam
-// Created At  : Jul 6, 2012 2:29:34 PM
+// Created At  : Jul 8, 2012 7:00 PM
 // Description : None
-// Accepted	   : YES, uva - GATTACA, livearchive - Hidden Password
+// Accepted	   :
 //============================================================================
 
 
-#ifndef SUFFIX_ARRAY_H_
-#define SUFFIX_ARRAY_H_
+#ifndef SUFFIX_ARRAY_CSTR_H_
+#define SUFFIX_ARRAY_CSTR_H_
 
 #include "template.h"
 
 template<size_t MAXLEN>
-struct SuffixArray {
+struct SuffixArrayCStr {
 private:
 	bool lexSort;
 
-	string str;
+	char *str;
 	int slen, step;
 	int sa[MAXLEN], key[MAXLEN], pos[24][MAXLEN], bsize[MAXLEN];
 
@@ -68,26 +68,25 @@ private:
 	}
 
 public:
-	SuffixArray(bool lexSort = true) : lexSort(lexSort) {}
+	SuffixArrayCStr(bool lexSort = true) : lexSort(lexSort) {}
 
-	void setString(string instr) {
+	void setString(char *instr) {
 		str = instr;
-		slen = sz(instr);
+		slen = ssz(instr);
 		buildSuffixArray();
 	}
 
 	int getPos(int i) { return pos[step-1][i]; }
 	int getIdx(int i) { return sa[i]; }
 
-	bool isSubstr(const string& pattern) {
-	    int len = sz(pattern);
+	bool isSubstr(const char* pattern) {
+	    int len = ssz(pattern);
 	    if (len == 0) return true;
 
 	    int left = 0, right = slen-1;
 	    while (left <= right) {
 	        int mid = (left + right) / 2;
-//	        int t = strncmp(str+sa[mid], pattern, len);
-	        int t = str.compare(sa[mid], len, pattern);
+	        int t = strncmp(str+sa[mid], pattern, len);
 	        if (t == 0)
 	            return true;
 	        else if (t < 0)
@@ -100,7 +99,7 @@ public:
 
 	int lcp(int x, int y) {
 	    int k, ret = 0;
-	    x = sa[x], y = sa[y];
+	    x = getIdx(x), y = getIdx(y);
 	    if (x == y) return slen - x;
 	    for (k = step - 1; k > 0 && x < slen && y < slen; k --) {
 	        if (pos[k][x] == pos[k][y]) {
@@ -112,4 +111,4 @@ public:
 	}
 };
 
-#endif /* SUFFIX_ARRAY_H_ */
+#endif /* SUFFIX_ARRAY_CSTR_H_ */

@@ -14,7 +14,7 @@ class Graph {
 public:
 	virtual int numVertex() = 0;
 	virtual void addEdge(int id, int ch, bool biDirEdge = false) = 0;
-	virtual vi getAdjacents(int id) = 0;
+	virtual const vi& getAdjacents(int id) = 0;
 	virtual int getAdjacentAt(int id, int idx) = 0;
 	virtual int numAdj(int id) = 0;
 	virtual const vector<vi>& getAdjacentList() const = 0;
